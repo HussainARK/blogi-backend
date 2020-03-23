@@ -16,20 +16,27 @@ app = express();
 app.use(express.json());
 app.use(cors());
 
+apiKey = process.env.APIKEY;
+
 // Defining Routes
 
 app.get("/posts", async (req, res) => {
-	try {
-		const allPosts = await pool.query("SELECT * FROM blog;");
+	if (req.query.key == apiKey) {
+		try {
+			const allPosts = await pool.query("SELECT * FROM blog;");
 
-		res.json(allPosts.rows);
-	} catch (err) {
-		console.error(err.message);
+			res.json(allPosts.rows);
+		} catch (err) {
+			console.error(err.message);
+		} 
+	} else {
+		res.send("Error: API Key is missing");
 	}
 });
 
 app.get("/posts/:id", async (req, res) => {
-	try {
+	if (req.query.key == apiKey) {
+		try {
 		const bid = req.params.id;
 
 		const selectedPost = await pool.query(
@@ -41,9 +48,13 @@ app.get("/posts/:id", async (req, res) => {
 	} catch (err) {
 		console.error(err.message);
 	}
+} else {
+	res.send("Error: API Key is missing");
+}
 });
 
 app.post("/posts", async (req, res) => {
+	if (req.query.key == apiKey) {
 	try {
 		const { title, author, content } = req.body;
 
@@ -56,25 +67,33 @@ app.post("/posts", async (req, res) => {
 	} catch (err) {
 		console.log(err.message);
 		}
+	} else {
+		res.send("Error: API Key is missing");
+	}
 });
 
 app.put("/posts/:id", async (req, res) => {
-			try {
-				const bid = req.params.id;
-				const { title: newTitle, author: newAuthor, content: newContent } = req.body;
+	if (req.query.key == apiKey) {
+	try {
+		const bid = req.params.id;
+		const { title: newTitle, author: newAuthor, content: newContent } = req.body;
 
-				updatePost = await pool.query(
-					"UPDATE blog SET title=$1, author=$2, content=$3 WHERE bid=$4",
-					[ newTitle, newAuthor, newContent, bid ]
-				);
+		updatePost = await pool.query(
+			"UPDATE blog SET title=$1, author=$2, content=$3 WHERE bid=$4",
+			[ newTitle, newAuthor, newContent, bid ]
+		);
 
-			res.json("Post Updated!");
-			} catch (err) {
-				console.error(err.message);
-			}
+		res.json("Post Updated!");
+		} catch (err) {
+			console.error(err.message);
+		}
+		} else {
+			res.send("Error: API Key is missing");
+		}
 		});
 
 app.delete("/posts/:id", async (req, res) => {
+	if (req.query.key == apiKey) {
 	try {
 		const { id: bid } = req.params;
 
@@ -87,6 +106,9 @@ app.delete("/posts/:id", async (req, res) => {
 	} catch (err) {
 		console.error(err.message);
 	}
+} else {
+	res.send("Error: API Key is missing");
+}
 });
 
 // Start the Server
