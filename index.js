@@ -21,7 +21,10 @@ apiKey = process.env.API_KEY;
 // Defining Routes
 
 app.get("/", (req, res) => {
-	res.json("This is the Blogi RESTful API,\n You can't Access it until you have the API Key :)")
+	res.json(`
+		This is the Blogi RESTful API, 
+		You can't Access it until you have the API Key :)
+	`);
 });
 
 app.get("/posts", async (req, res) => {
