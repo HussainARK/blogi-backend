@@ -1,3 +1,8 @@
+/*
+	* Copyright (c) 2020 
+	* All rights reserved.
+	*/
+
 // Importing necessary Packages
 
 const express = require("express");
@@ -14,20 +19,28 @@ app.use(cors());
 // Defining Routes
 
 app.get("/posts", async (req, res) => {
-	const allPosts = await pool.query("SELECT * FROM blog;");
+	try {
+		const allPosts = await pool.query("SELECT * FROM blog;");
 
-	res.json(allPosts.rows);
+		res.json(allPosts.rows);
+	} catch (err) {
+		console.error(err.message);
+	}
 });
 
 app.get("/posts/:id", async (req, res) => {
-	const bid = req.params.id;
+	try {
+		const bid = req.params.id;
 
-	const selectedPost = await pool.query(
-		"SELECT * FROM blog WHERE bid=$1",
-		[ bid ]
-	)
+		const selectedPost = await pool.query(
+			"SELECT * FROM blog WHERE bid=$1",
+			[ bid ]
+		)
 
-	res.json(selectedPost.rows[0])
+		res.json(selectedPost.rows[0])
+	} catch (err) {
+		console.error(err.message);
+	}
 });
 
 app.post("/posts", async (req, res) => {
@@ -46,26 +59,34 @@ app.post("/posts", async (req, res) => {
 });
 
 app.put("/posts/:id", async (req, res) => {
-	const bid = req.params.id;
-	const { title: newTitle, author: newAuthor, content: newContent } = req.body;
+			try {
+				const bid = req.params.id;
+				const { title: newTitle, author: newAuthor, content: newContent } = req.body;
 
-	updatePost = await pool.query(
-		"UPDATE blog SET title=$1, author=$2, content=$3 WHERE bid=$4",
-		[ newTitle, newAuthor, newContent, bid ]
-		);
+				updatePost = await pool.query(
+					"UPDATE blog SET title=$1, author=$2, content=$3 WHERE bid=$4",
+					[ newTitle, newAuthor, newContent, bid ]
+				);
 
 			res.json("Post Updated!");
-				});
+			} catch (err) {
+				console.error(err.message);
+			}
+		});
 
 app.delete("/posts/:id", async (req, res) => {
-	const { id: bid } = req.params;
+	try {
+		const { id: bid } = req.params;
 
-	deletePost = pool.query(
-		"DELETE FROM blog WHERE bid=$1",
-		[ bid ]
+		deletePost = pool.query(
+			"DELETE FROM blog WHERE bid=$1",
+			[ bid ]
 		);
 
 		res.json("Post is Deleted!");
+	} catch (err) {
+		console.error(err.message);
+	}
 });
 
 // Start the Server
