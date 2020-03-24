@@ -20,6 +20,8 @@ apiKey = process.env.API_KEY;
 
 // Defining Routes
 
+// // GET Routes
+
 app.get("/", (req, res) => {
 	res.json("This is the Blogi RESTful API, You can't Access it until you have the API Key :)");
 });
@@ -57,6 +59,8 @@ app.get("/posts/:id", async (req, res) => {
 }
 });
 
+// // POST Route
+
 app.post("/posts", async (req, res) => {
 	if (req.query.key == apiKey) {
 		try {
@@ -75,6 +79,8 @@ app.post("/posts", async (req, res) => {
 		res.send("Error: API Key is missing");
 	}
 });
+
+// // PUT Route
 
 app.put("/posts/:id", async (req, res) => {
 	if (req.query.key == apiKey) {
@@ -96,6 +102,8 @@ app.put("/posts/:id", async (req, res) => {
 		}
 		});
 
+// // DELETE Route
+
 app.delete("/posts/:id", async (req, res) => {
 	if (req.query.key == apiKey) {
 	try {
@@ -113,6 +121,12 @@ app.delete("/posts/:id", async (req, res) => {
 } else {
 	res.send("Error: API Key is missing");
 }
+});
+
+// // Dummy Route
+
+app.all("*", (req, res) => {
+	console.log("We've got a New Request!")
 });
 
 // Start the Server
