@@ -28,7 +28,7 @@ app.all("*", (req, res) => {
 
 // // GET Routes
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
 	res.json("This is the Blogi RESTful API, You can't Access it until you have the API Key :)");
 });
 
