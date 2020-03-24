@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "This is a Simple Blogging Program",
 	"main": "server.js",
-	"repository": "#",
+	"repository": "https://github.com/HussainARK/blogi-backend",
 	"author": "HussainARK",
 	"license": "MIT",
 	"dependencies": {
