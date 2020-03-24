@@ -20,12 +20,6 @@ apiKey = process.env.API_KEY;
 
 // Defining Routes
 
-// // Dummy Route
-
-app.all("*", (req, res) => {
-	console.log("We've got a New Request!")
-});
-
 // // GET Routes
 
 app.get("/", async (req, res) => {
