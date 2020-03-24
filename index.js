@@ -59,18 +59,18 @@ app.get("/posts/:id", async (req, res) => {
 
 app.post("/posts", async (req, res) => {
 	if (req.query.key == apiKey) {
-	try {
-		const { title, author, content } = req.body;
+		try {
+			const { title, author, content } = req.body;
 
-		const createPost = await pool.query(
-			"INSERT INTO blog (title, author, content) VALUES ($1, $2, $3) RETURNING *;", 
-			[title, author, content]
-		);
+			const createPost = await pool.query(
+				"INSERT INTO blog (title, author, content) VALUES ($1, $2, $3) RETURNING *;", 
+				[title, author, content]
+			);
 
-		res.json("Post created!");
-	} catch (err) {
-		console.log(err.message);
-		}
+			res.json("Post created!");
+		} catch (err) {
+			console.log(err.message);
+			}
 	} else {
 		res.send("Error: API Key is missing");
 	}
