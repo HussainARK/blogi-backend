@@ -2,7 +2,7 @@
 	"name": "blogi",
 	"version": "1.0.0",
 	"description": "This is a Simple Blogging Program",
-	"main": "index.js",
+	"main": "server.js",
 	"repository": "#",
 	"author": "HussainARK",
 	"license": "MIT",

@@ -20,6 +20,12 @@ apiKey = process.env.API_KEY;
 
 // Defining Routes
 
+// // Dummy Route
+
+app.all("*", (req, res) => {
+	console.log("We've got a New Request!")
+});
+
 // // GET Routes
 
 app.get("/", (req, res) => {
@@ -121,12 +127,6 @@ app.delete("/posts/:id", async (req, res) => {
 } else {
 	res.send("Error: API Key is missing");
 }
-});
-
-// // Dummy Route
-
-app.all("*", (req, res) => {
-	console.log("We've got a New Request!")
 });
 
 // Start the Server
