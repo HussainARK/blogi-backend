@@ -13,6 +13,6 @@
 		"pg": "^7.18.2"
 	},
 	"scripts": {
-		"start": "node index.js"
+		"start": "node server.js"
 	}
 }
