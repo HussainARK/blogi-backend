@@ -16,7 +16,7 @@ app = express();
 app.use(express.json());
 app.use(cors());
 
-apiKey = process.env.API_KEY;
+const apiKey = process.env.API_KEY;
 
 // Defining Routes
 
