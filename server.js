@@ -23,7 +23,7 @@ apiKey = process.env.API_KEY;
 // // GET Routes
 
 app.get("/", async (req, res) => {
-	res.json("This is the Blogi RESTful API, You can't Access it until you have the API Key :)");
+	res.send("This is the Blogi RESTful API, You can't Access it until you have the API Key :)");
 });
 
 app.get("/posts", async (req, res) => {
@@ -71,7 +71,7 @@ app.post("/posts", async (req, res) => {
 				[title, author, content]
 			);
 
-			res.json("Post created!");
+			res.send("Post created!");
 		} catch (err) {
 			console.log(err.message);
 			}
@@ -93,7 +93,7 @@ app.put("/posts/:id", async (req, res) => {
 			[ newTitle, newAuthor, newContent, bid ]
 		);
 
-		res.json("Post Updated!");
+		res.send("Post Updated!");
 		} catch (err) {
 			console.error(err.message);
 		}
@@ -114,7 +114,7 @@ app.delete("/posts/:id", async (req, res) => {
 			[ bid ]
 		);
 
-		res.json("Post is Deleted!");
+		res.send("Post is Deleted!");
 	} catch (err) {
 		console.error(err.message);
 	}
