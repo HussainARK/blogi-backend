@@ -24,6 +24,10 @@ const checkData = (title, author, content) => {
 		title = "N/A"
 		author = "N/A"
 		content = "N/A"
+
+		return { title, author, content };
+	} else {
+		return;
 	}
 };
 
@@ -75,7 +79,7 @@ app.post("/posts", async (req, res) => {
 		try {
 			const { title, author, content } = req.body;
 			
-			checkData(title, author, content);
+			const { title, author, content } = checkData(title, author, content);
 			
 			const createPost = await pool.query(
 				"INSERT INTO blog (title, author, content) VALUES ($1, $2, $3) RETURNING *;", 
@@ -99,11 +103,11 @@ app.put("/posts/:id", async (req, res) => {
 			const bid = req.params.id;
 			const { title: newTitle, author: newAuthor, content: newContent } = req.body;
 
-			checkData(newTitle, newAuthor, newContent);
+			const { title, author, content } = checkData(newTitle, newAuthor, newContent);
 
 			updatePost = await pool.query(
 				"UPDATE blog SET title=$1, author=$2, content=$3 WHERE bid=$4",
-				[ newTitle, newAuthor, newContent, bid ]
+				[ title, author, content, bid ]
 			);
 
 			res.send("Post Updated!");
