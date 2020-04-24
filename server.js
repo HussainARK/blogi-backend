@@ -17,11 +17,14 @@ const apiKey = process.env.API_KEY;
 
 // Difining Some Functions
 
-// // Validation
+// // Checking the Inputs
 
 const checkData = (title, author, content) => {
-	if ((title !== "") && (author !== "") && (content !== "")) 
-		return res.status(400).send("Error: There is no title/author/content");
+	if ((title === "") && (author === "") && (content === "")) {
+		title = "N/A"
+		author = "N/A"
+		content = "N/A"
+	}
 };
 
 // Defining Routes
