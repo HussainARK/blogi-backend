@@ -1,3 +1,5 @@
+/// START
+
 // Importing necessary Packages
 
 const express = require("express");
@@ -12,6 +14,15 @@ app.use(express.json());
 app.use(cors());
 
 const apiKey = process.env.API_KEY;
+
+// Difining Some Functions
+
+// // Validation
+
+const checkData = (title, author, content) => {
+	if ((title !== "") && (author !== "") && (content !== "")) 
+		return res.status(400).send("Error: There is no title/author/content");
+};
 
 // Defining Routes
 
@@ -46,12 +57,12 @@ app.get("/posts/:id", async (req, res) => {
 		)
 
 		res.json(selectedPost.rows[0])
-	} catch (err) {
-		console.error(err.message);
+		} catch (err) {
+			console.error(err.message);
+		}
+	} else {
+		res.send("Error: API Key is missing");
 	}
-} else {
-	res.send("Error: API Key is missing");
-}
 });
 
 // // POST Route
@@ -60,7 +71,9 @@ app.post("/posts", async (req, res) => {
 	if (req.query.key == apiKey) {
 		try {
 			const { title, author, content } = req.body;
-
+			
+			checkData(title, author, content);
+			
 			const createPost = await pool.query(
 				"INSERT INTO blog (title, author, content) VALUES ($1, $2, $3) RETURNING *;", 
 				[title, author, content]
@@ -69,7 +82,7 @@ app.post("/posts", async (req, res) => {
 			res.send("Post created!");
 		} catch (err) {
 			console.log(err.message);
-			}
+		}
 	} else {
 		res.send("Error: API Key is missing");
 	}
@@ -79,23 +92,25 @@ app.post("/posts", async (req, res) => {
 
 app.put("/posts/:id", async (req, res) => {
 	if (req.query.key == apiKey) {
-	try {
-		const bid = req.params.id;
-		const { title: newTitle, author: newAuthor, content: newContent } = req.body;
+		try {
+			const bid = req.params.id;
+			const { title: newTitle, author: newAuthor, content: newContent } = req.body;
 
-		updatePost = await pool.query(
-			"UPDATE blog SET title=$1, author=$2, content=$3 WHERE bid=$4",
-			[ newTitle, newAuthor, newContent, bid ]
-		);
+			checkData(newTitle, newAuthor, newContent);
 
-		res.send("Post Updated!");
+			updatePost = await pool.query(
+				"UPDATE blog SET title=$1, author=$2, content=$3 WHERE bid=$4",
+				[ newTitle, newAuthor, newContent, bid ]
+			);
+
+			res.send("Post Updated!");
 		} catch (err) {
 			console.error(err.message);
 		}
-		} else {
-			res.send("Error: API Key is missing");
-		}
-		});
+	} else {
+		res.send("Error: API Key is missing");
+	}
+});
 
 // // DELETE Route
 
@@ -125,3 +140,5 @@ const port = process.env.PORT || 2000;
 app.listen(port, () => {
 	console.log(`Listening on port ${port}...`);
 });
+
+/// END
