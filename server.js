@@ -79,11 +79,11 @@ app.post("/posts", async (req, res) => {
 		try {
 			const { title, author, content } = req.body;
 			
-			let { title, author, content } = checkData(title, author, content);
+			let { theTitle, theAuthor, theContent } = checkData(title, author, content);
 			
 			const createPost = await pool.query(
 				"INSERT INTO blog (title, author, content) VALUES ($1, $2, $3) RETURNING *;", 
-				[title, author, content]
+				[theTitle, theAuthor, theContent]
 			);
 
 			res.send("Post created!");
