@@ -79,7 +79,7 @@ app.post("/posts", async (req, res) => {
 		try {
 			const { title, author, content } = req.body;
 			
-			const { title, author, content } = checkData(title, author, content);
+			let { title, author, content } = checkData(title, author, content);
 			
 			const createPost = await pool.query(
 				"INSERT INTO blog (title, author, content) VALUES ($1, $2, $3) RETURNING *;", 
@@ -103,7 +103,7 @@ app.put("/posts/:id", async (req, res) => {
 			const bid = req.params.id;
 			const { title: newTitle, author: newAuthor, content: newContent } = req.body;
 
-			const { title, author, content } = checkData(newTitle, newAuthor, newContent);
+			let { title, author, content } = checkData(newTitle, newAuthor, newContent);
 
 			updatePost = await pool.query(
 				"UPDATE blog SET title=$1, author=$2, content=$3 WHERE bid=$4",
