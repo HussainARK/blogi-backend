@@ -23,15 +23,18 @@ const checkData = (title, author, content) => {
 	if (
 			(
 				(title === "") || 
-				(title === undefined)
+				(title === undefined) ||
+				(title === null)
 			) && 
 			(
 				(author === "") || 
-				(author === undefined)
+				(author === undefined) ||
+				(author === null)
 			) && 
 			(
 				(content === "") || 
-				(content === undefined)
+				(content === undefined) ||
+				(content === null)
 			)
 		) {
 		title = "N/A"
@@ -39,9 +42,8 @@ const checkData = (title, author, content) => {
 		content = "N/A"
 
 		return { title, author, content };
-	} else {
-		return { title, author, content };
 	}
+	return { title, author, content };
 };
 
 // Defining Routes
