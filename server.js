@@ -8,7 +8,7 @@ const pool = require('./db');
 
 // Doinng some Important Stuff
 
-app = express();
+const app = express();
 
 app.use(express.json());
 app.use(cors());
