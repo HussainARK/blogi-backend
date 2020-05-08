@@ -20,14 +20,27 @@ const apiKey = process.env.API_KEY;
 // // Checking the Inputs
 
 const checkData = (title, author, content) => {
-	if ((title === "") && (author === "") && (content === "")) {
+	if (
+			(
+				(title === "") || 
+				(title === undefined)
+			) && 
+			(
+				(author === "") || 
+				(author === undefined)
+			) && 
+			(
+				(content === "") || 
+				(content === undefined)
+			)
+		) {
 		title = "N/A"
 		author = "N/A"
 		content = "N/A"
 
 		return { title, author, content };
 	} else {
-		return;
+		return { title, author, content };
 	}
 };
 
