@@ -6,7 +6,7 @@ const express = require("express");
 const cors = require('cors');
 const pool = require('./db');
 
-// Doinng some Important Stuff
+// Doing some Important Stuff
 
 const app = express();
 
@@ -14,37 +14,6 @@ app.use(express.json());
 app.use(cors());
 
 const apiKey = process.env.API_KEY;
-
-// Difining Some Functions
-
-// // Checking the Inputs
-
-const checkData = (title, author, content) => {
-	if (
-			(
-				(title === "") || 
-				(title === undefined) ||
-				(title === null)
-			) && 
-			(
-				(author === "") || 
-				(author === undefined) ||
-				(author === null)
-			) && 
-			(
-				(content === "") || 
-				(content === undefined) ||
-				(content === null)
-			)
-		) {
-		title = "N/A"
-		author = "N/A"
-		content = "N/A"
-
-		return { title, author, content };
-	}
-	return { title, author, content };
-};
 
 // Defining Routes
 
@@ -94,11 +63,9 @@ app.post("/posts", async (req, res) => {
 		try {
 			const { title, author, content } = req.body;
 			
-			let { theTitle, theAuthor, theContent } = checkData(title, author, content);
-			
 			const createPost = await pool.query(
 				"INSERT INTO blog (title, author, content) VALUES ($1, $2, $3) RETURNING *;", 
-				[theTitle, theAuthor, theContent]
+				[ title, author, content ]
 			);
 
 			res.send("Post created!");
@@ -118,11 +85,9 @@ app.put("/posts/:id", async (req, res) => {
 			const bid = req.params.id;
 			const { title: newTitle, author: newAuthor, content: newContent } = req.body;
 
-			let { title, author, content } = checkData(newTitle, newAuthor, newContent);
-
 			updatePost = await pool.query(
 				"UPDATE blog SET title=$1, author=$2, content=$3 WHERE bid=$4",
-				[ title, author, content, bid ]
+				[ newTitle, newAuthor, newContent, bid ]
 			);
 
 			res.send("Post Updated!");
